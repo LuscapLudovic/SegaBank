@@ -6,6 +6,8 @@ public class TypeCompte {
 
   private Integer libelle;
 
+  public TypeCompte() { }
+
   public TypeCompte(Integer libelle) {
     this.libelle = libelle;
   }

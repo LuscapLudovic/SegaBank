@@ -2,46 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d95c85f-5e17-4a67-8fa6-704e21a9684d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../Activite-Garage/Activite-Garage.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Activite1/Activite1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Anon/Anon.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Bouton/Bouton.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../CalculSalaireExo/CalculSalaireExo.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Calculatrice/Calculatrice.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Comptable/Comptable.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../E5/E5.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../ENI_cEstLaJava-master/spectacle.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Fenetre/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Fenetre/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Fenetre/Fenetre.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Fenetre/src/Bouton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Montre/Montre.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../OC/OC.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Poo/Poo.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Strim/Strim.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TPOC/TPOC.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../activite1OpenclassroomJava-master/.idea/activite1OpenclassroomJava-master.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../b3/b3.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../cours/cours.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../enum/enum.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../epsi_01/epsi_01.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fluqcs/fluqcs.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../formTrain/formTrain.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../garageOC/garageOC.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../jdbc/jdbc.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../openclassroom/openclassroom.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../peyre/peyre.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../starfield/starfield.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../training/training.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/AgenceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/CompteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/IRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/OperationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/TypeCompteRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BO/Agence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BO/Agence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/BO/TypeCompte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BO/TypeCompte.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -95,7 +77,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

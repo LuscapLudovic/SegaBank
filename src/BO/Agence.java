@@ -13,6 +13,8 @@ public class Agence {
     Adresse = adresse;
   }
 
+    public Agence() {}
+
   public Integer getId() {
     return id;
   }
