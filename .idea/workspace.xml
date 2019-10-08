@@ -18,7 +18,7 @@
       <change afterPath="$PROJECT_DIR$/../Montre/Montre.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../OC/OC.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Poo/Poo.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ressources/db.properties" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Strim/Strim.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../TPOC/TPOC.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../activite1OpenclassroomJava-master/.idea/activite1OpenclassroomJava-master.iml" afterDir="false" />
@@ -34,7 +34,6 @@
       <change afterPath="$PROJECT_DIR$/../peyre/peyre.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../starfield/starfield.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../training/training.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -60,6 +59,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../b3-intro-poo" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -83,7 +83,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1570543329336</updated>
-      <workItem from="1570543335701" duration="2141000" />
+      <workItem from="1570543335701" duration="3099000" />
     </task>
     <servers />
   </component>
