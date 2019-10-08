@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d95c85f-5e17-4a67-8fa6-704e21a9684d" name="Default Changelist" comment="">
-
       <change afterPath="$PROJECT_DIR$/../Activite-Garage/Activite-Garage.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Activite1/Activite1.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Anon/Anon.iml" afterDir="false" />
@@ -20,6 +19,11 @@
       <change afterPath="$PROJECT_DIR$/../OC/OC.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Poo/Poo.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ressources/db.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/AgenceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/CompteRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/IRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/OperationRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/TypeCompteRepository.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../Strim/Strim.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../TPOC/TPOC.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../activite1OpenclassroomJava-master/.idea/activite1OpenclassroomJava-master.iml" afterDir="false" />
@@ -35,13 +39,6 @@
       <change afterPath="$PROJECT_DIR$/../peyre/peyre.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../starfield/starfield.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../training/training.iml" afterDir="false" />
-
-      <change afterPath="$PROJECT_DIR$/src/Repository/AgenceRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/CompteRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/IRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/OperationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Repository/TypeCompteRepository.java" afterDir="false" />
-
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BO/Agence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BO/Agence.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/BO/TypeCompte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BO/TypeCompte.java" afterDir="false" />
@@ -101,7 +98,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1570543329336</updated>
-      <workItem from="1570543335701" duration="3099000" />
+      <workItem from="1570543335701" duration="3101000" />
     </task>
     <servers />
   </component>
