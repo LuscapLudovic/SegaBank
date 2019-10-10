@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class CompteRepository implements IRepository<Compte> {
 
 
-    private static final String INSERT_QUERY = "INSERT INTO compte (code, adresse) VALUES(?,?)";
-    private static final String UPDATE_QUERY = "UPDATE compte SET code = ?, adresse = ? WHERE id = ?";
+    private static final String INSERT_QUERY = "INSERT INTO compte (solde, decouvert, tauxInteret, typeCompte, agence) VALUES(?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE compte SET solde = ?, decouvert = ?, tauxInteret = ?, typeCompte = ?, agence = ? WHERE id = ?";
     private static final String REMOVE_QUERY = "DELETE FROM compte WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM compte WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM compte";
@@ -77,17 +77,58 @@ public class CompteRepository implements IRepository<Compte> {
     }
 
     @Override
-    public void Add(Compte _object) {
+    public void Add(Compte _object) throws SQLException, IOException, ClassNotFoundException {
+
+
+        Connection connection = PersistanteManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( INSERT_QUERY ) ) {
+                ps.setDouble( 1, _object.getSolde() );
+                ps.setDouble( 2, _object.getDecouvert() );
+                ps.setDouble( 2, _object.getTauxInteret() );
+                ps.setInt( 2, _object.getTypeCompte().getId() );
+                ps.setInt( 2, _object.getAgence().getId() );
+                try ( ResultSet rs = ps.executeQuery() ) {
+                    if ( rs.next() ) {
+                        _object.setId( rs.getInt( 1 ) );
+                    }
+                }
+            }
+        }
 
     }
 
     @Override
-    public void Remove(Compte _object) {
+    public void Remove(Compte _object) throws SQLException, IOException, ClassNotFoundException {
+
+        Connection connection = PersistanteManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( REMOVE_QUERY ) ) {
+                ps.setInt( 1, _object.getId());
+
+            }
+        }
 
     }
 
     @Override
     public void Update(Compte _object) throws SQLException, IOException, ClassNotFoundException {
+
+        Connection connection = PersistanteManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( UPDATE_QUERY ) ) {
+                ps.setDouble( 1, _object.getSolde() );
+                ps.setDouble( 2, _object.getDecouvert() );
+                ps.setDouble( 2, _object.getTauxInteret() );
+                ps.setInt( 2, _object.getTypeCompte().getId() );
+                ps.setInt( 2, _object.getAgence().getId() );
+                try ( ResultSet rs = ps.executeQuery() ) {
+                    if ( rs.next() ) {
+                        _object.setId( rs.getInt( 1 ) );
+                    }
+                }
+            }
+        }
 
     }
 
