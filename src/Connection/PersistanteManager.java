@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class PersistanteManager {
 
-    private static final String PROPS_FILE = "./resources/db.properties";
+    private static final String PROPS_FILE = "./ressources/db.properties";
 
     private static Connection connection;
 

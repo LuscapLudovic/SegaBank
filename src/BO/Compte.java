@@ -91,6 +91,11 @@ public class Compte {
             " | Agence : " + agence.getCode();
   }
 
+  public String toStringShort(){
+    return  "Id: " + Id +
+            " | Solde: " + Solde;
+  }
+
   public void CalculInteret() throws Exception {
     if (this.TypeCompte.getLibelle().equals("Payant")){
       Solde += tauxInteret*Solde;
