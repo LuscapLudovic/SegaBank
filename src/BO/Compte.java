@@ -12,15 +12,21 @@ public class Compte {
 
   private double tauxInteret;
 
-  private Agence agenceId;
+  private Agence agence;
+
+  public Compte(){
+
+  }
 
   public Compte(double solde, BO.TypeCompte typeCompte, double decouvert, double tauxInteret, Agence agenceId) {
     Solde = solde;
     TypeCompte = typeCompte;
     this.decouvert = decouvert;
     this.tauxInteret = tauxInteret;
-    this.agenceId = agenceId;
+    this.agence = agenceId;
   }
+
+  public void setId(Integer id) { this.Id = id; }
 
   public Integer getId() {
     return Id;
@@ -58,12 +64,12 @@ public class Compte {
     this.tauxInteret = tauxInteret;
   }
 
-  public Agence getAgenceId() {
-    return agenceId;
+  public Agence getAgence() {
+    return agence;
   }
 
-  public void setAgenceId(Agence agenceId) {
-    this.agenceId = agenceId;
+  public void setAgence(Agence agence) {
+    this.agence = agence;
   }
 
   public void ToString() {

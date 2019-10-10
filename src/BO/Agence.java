@@ -13,7 +13,9 @@ public class Agence {
     Adresse = adresse;
   }
 
-    public Agence() {}
+  public Agence() {}
+
+  public void setId(Integer id) { this.id = id; }
 
   public Integer getId() {
     return id;
