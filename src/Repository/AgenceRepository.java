@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AgenceRepository implements IRepository<Agence> {
+public class AgenceRepository implements IRepository<Agence>, AutoCloseable {
 
     private static final String INSERT_QUERY = "INSERT INTO agence (code, adresse) VALUES(?,?)";
     private static final String UPDATE_QUERY = "UPDATE agence SET code = ?, adresse = ? WHERE id = ?";
@@ -126,5 +126,8 @@ public class AgenceRepository implements IRepository<Agence> {
         }
 
     }
+
+    @Override
+    public void close() throws Exception { }
 
 }

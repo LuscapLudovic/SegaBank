@@ -1,7 +1,10 @@
 package BO;
 
+import Repository.CompteRepository;
+
 public class Compte {
 
+  //region Properties
   private Integer Id;
 
   private double Solde;
@@ -13,7 +16,9 @@ public class Compte {
   private double tauxInteret;
 
   private Agence agence;
+  //endregion
 
+  //region Constructors
   public Compte(){
 
   }
@@ -25,7 +30,9 @@ public class Compte {
     this.tauxInteret = tauxInteret;
     this.agence = agenceId;
   }
+  //endregion
 
+  //region Getter and Setter
   public void setId(Integer id) { this.Id = id; }
 
   public Integer getId() {
@@ -71,11 +78,29 @@ public class Compte {
   public void setAgence(Agence agence) {
     this.agence = agence;
   }
+  //endregion
 
-  public void ToString() {
+  //region Methods
+  @Override
+  public String toString() {
+    return  "Id: " + Id +
+            " | Solde: " + Solde +
+            (TypeCompte.getLibelle().equals("Simple")  ? " | Decouvert: " + decouvert : "") +
+            (TypeCompte.getLibelle().equals("Epargne")  ? " | Taux Interet : " + tauxInteret : "") +
+            " | Type Compte: " + TypeCompte.getLibelle() +
+            " | Agence : " + agence.getCode();
   }
 
-  public void CalculInteret() {
+  public void CalculInteret() throws Exception {
+    if (this.TypeCompte.getLibelle().equals("Payant")){
+      Solde += tauxInteret*Solde;
+      try (CompteRepository comptRepo = new CompteRepository()){
+        comptRepo.Update(this);
+      }
+    }else{
+      System.out.println("Votre compte ne vous permet pas d'avoir des interets, veuillez prendre un compte de type 'Payant'");
+    }
   }
+  //endregion
 
 }

@@ -2,19 +2,24 @@ package BO;
 
 public class Agence {
 
+  //region Properties
   private Integer id;
 
   private String code;
 
   private String Adresse;
+  //endregion
+
+  //region Constructors
+  public Agence() {}
 
   public Agence(String code, String adresse) {
     this.code = code;
     Adresse = adresse;
   }
+  //endregion
 
-  public Agence() {}
-
+  //region Getter and Setter
   public void setId(Integer id) { this.id = id; }
 
   public Integer getId() {
@@ -36,4 +41,13 @@ public class Agence {
   public void setAdresse(String adresse) {
     Adresse = adresse;
   }
+  //endregion
+
+  //region Methods
+  @Override
+  public String toString(){
+    return "Id: " + id + " | Code: " + code + " | Adresse: " + Adresse;
+  }
+  //endregion
+
 }

@@ -2,27 +2,41 @@ package BO;
 
 public class TypeCompte {
 
+  //region Properties
   private Integer Id;
 
-  private Integer libelle;
+  private String libelle;
+  //endregion
 
+  //region Constructors
   public TypeCompte() { }
 
-  public TypeCompte(Integer libelle) {
+  public TypeCompte(String libelle) {
     this.libelle = libelle;
   }
+  //endregion
 
+  //region Getter and Setter
   public void setId(Integer id) { this.Id = id;}
 
   public Integer getId() {
     return Id;
   }
 
-  public Integer getLibelle() {
-    return libelle;
-  }
+  public String getLibelle() { return libelle; }
 
-  public void setLibelle(Integer libelle) {
+  public void setLibelle(String libelle) {
     this.libelle = libelle;
   }
+  //endregion
+
+  //region Methods
+
+  @Override
+  public String toString(){
+    return "";
+  }
+
+  //endregion
+
 }

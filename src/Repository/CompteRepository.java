@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CompteRepository implements IRepository<Compte> {
+public class CompteRepository implements IRepository<Compte>, AutoCloseable {
 
 
     private static final String INSERT_QUERY = "INSERT INTO compte (solde, decouvert, tauxInteret, typeCompte, agence) VALUES(?,?,?,?,?)";
@@ -132,4 +132,8 @@ public class CompteRepository implements IRepository<Compte> {
 
     }
 
+    @Override
+    public void close() throws Exception {
+
+    }
 }

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TypeCompteRepository implements IRepository<TypeCompte> {
+public class TypeCompteRepository implements IRepository<TypeCompte>, AutoCloseable {
 
     @Override
     public ArrayList<TypeCompte> getAll() {
@@ -36,4 +36,8 @@ public class TypeCompteRepository implements IRepository<TypeCompte> {
 
     }
 
+    @Override
+    public void close() throws Exception {
+
+    }
 }
