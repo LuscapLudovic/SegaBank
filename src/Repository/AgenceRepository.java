@@ -20,7 +20,7 @@ public class AgenceRepository implements IRepository<Agence>, AutoCloseable {
     @Override
     public ArrayList<Agence> getAll() throws SQLException, IOException, ClassNotFoundException {
 
-        ArrayList<Agence> listAgence = new ArrayList();
+        ArrayList<Agence> listAgence = new ArrayList<>();
         Connection connection = PersistanteManager.getConnection();
         if ( connection != null ) {
             try ( PreparedStatement ps = connection.prepareStatement( FIND_ALL_QUERY ) ) {
@@ -117,6 +117,7 @@ public class AgenceRepository implements IRepository<Agence>, AutoCloseable {
             try ( PreparedStatement ps = connection.prepareStatement( UPDATE_QUERY ) ) {
                 ps.setString( 1, _object.getCode() );
                 ps.setString( 2, _object.getAdresse() );
+                ps.setInt(3, _object.getId());
                 try ( ResultSet rs = ps.executeQuery() ) {
                     if ( rs.next() ) {
                         _object.setId( rs.getInt( 1 ) );

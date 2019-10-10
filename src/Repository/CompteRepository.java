@@ -1,8 +1,6 @@
 package Repository;
 
-import BO.Agence;
 import BO.Compte;
-import BO.TypeCompte;
 import Connection.PersistanteManager;
 
 import java.io.IOException;
@@ -24,7 +22,7 @@ public class CompteRepository implements IRepository<Compte>, AutoCloseable {
     @Override
     public ArrayList<Compte> getAll() throws SQLException, IOException, ClassNotFoundException {
 
-        ArrayList listCompte = new ArrayList();
+        ArrayList<Compte> listCompte = new ArrayList<>();
         Connection connection = PersistanteManager.getConnection();
         if ( connection != null ) {
             try ( PreparedStatement ps = connection.prepareStatement( FIND_ALL_QUERY ) ) {
@@ -85,9 +83,9 @@ public class CompteRepository implements IRepository<Compte>, AutoCloseable {
             try ( PreparedStatement ps = connection.prepareStatement( INSERT_QUERY ) ) {
                 ps.setDouble( 1, _object.getSolde() );
                 ps.setDouble( 2, _object.getDecouvert() );
-                ps.setDouble( 2, _object.getTauxInteret() );
-                ps.setInt( 2, _object.getTypeCompte().getId() );
-                ps.setInt( 2, _object.getAgence().getId() );
+                ps.setDouble( 3, _object.getTauxInteret() );
+                ps.setInt( 4, _object.getTypeCompte().getId() );
+                ps.setInt( 5, _object.getAgence().getId() );
                 try ( ResultSet rs = ps.executeQuery() ) {
                     if ( rs.next() ) {
                         _object.setId( rs.getInt( 1 ) );
@@ -119,9 +117,10 @@ public class CompteRepository implements IRepository<Compte>, AutoCloseable {
             try ( PreparedStatement ps = connection.prepareStatement( UPDATE_QUERY ) ) {
                 ps.setDouble( 1, _object.getSolde() );
                 ps.setDouble( 2, _object.getDecouvert() );
-                ps.setDouble( 2, _object.getTauxInteret() );
-                ps.setInt( 2, _object.getTypeCompte().getId() );
-                ps.setInt( 2, _object.getAgence().getId() );
+                ps.setDouble( 3, _object.getTauxInteret() );
+                ps.setInt( 4, _object.getTypeCompte().getId() );
+                ps.setInt( 5, _object.getAgence().getId() );
+                ps.setInt( 6, _object.getId());
                 try ( ResultSet rs = ps.executeQuery() ) {
                     if ( rs.next() ) {
                         _object.setId( rs.getInt( 1 ) );
