@@ -3,7 +3,6 @@ package Repository;
 import BO.TypeCompte;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TypeCompteRepository implements IRepository<TypeCompte> {
 
