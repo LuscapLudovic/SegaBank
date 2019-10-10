@@ -12,6 +12,8 @@ public class TypeCompte {
     this.libelle = libelle;
   }
 
+  public void setId(Integer id) { this.Id = id;}
+
   public Integer getId() {
     return Id;
   }

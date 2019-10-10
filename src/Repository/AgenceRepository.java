@@ -101,15 +101,9 @@ public class AgenceRepository implements IRepository<Agence> {
 
         Connection connection = PersistanteManager.getConnection();
         if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( UPDATE_QUERY ) ) {
-                ps.setString( 1, _object.getCode() );
-                ps.setString( 2, _object.getAdresse() );
-                ps.setInt( 3, _object.getId());
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        _object.setId( rs.getInt( 1 ) );
-                    }
-                }
+            try ( PreparedStatement ps = connection.prepareStatement( REMOVE_QUERY ) ) {
+                ps.setInt( 1, _object.getId());
+
             }
         }
 

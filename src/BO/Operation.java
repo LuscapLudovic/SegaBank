@@ -2,7 +2,7 @@ package BO;
 
 public class Operation {
 
-  private Integer id;
+  private Integer Id;
 
   private Compte compteDebId;
 
@@ -16,8 +16,10 @@ public class Operation {
     this.montant = montant;
   }
 
+  public void setId( Integer id ) { this.Id = id; }
+
   public Integer getId() {
-    return id;
+    return Id;
   }
 
   public Compte getCompteDebId() {

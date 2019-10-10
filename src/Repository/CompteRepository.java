@@ -18,13 +18,13 @@ public class CompteRepository implements IRepository<Compte> {
     private static final String INSERT_QUERY = "INSERT INTO compte (code, adresse) VALUES(?,?)";
     private static final String UPDATE_QUERY = "UPDATE compte SET code = ?, adresse = ? WHERE id = ?";
     private static final String REMOVE_QUERY = "DELETE FROM compte WHERE id = ?";
-    private static final String FIND_QUERY = "SELECT * FROM compte WHERE id = ?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM compte WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM compte";
 
     @Override
     public ArrayList<Compte> getAll() throws SQLException, IOException, ClassNotFoundException {
 
-        ArrayList<Compte> listCompte = new ArrayList();
+        ArrayList listCompte = new ArrayList();
         Connection connection = PersistanteManager.getConnection();
         if ( connection != null ) {
             try ( PreparedStatement ps = connection.prepareStatement( FIND_ALL_QUERY ) ) {
@@ -49,8 +49,31 @@ public class CompteRepository implements IRepository<Compte> {
         return listCompte;
     }
 
-    public Compte getOneById() {
-        return null;
+    public Compte getOneById(Integer id) throws SQLException, IOException, ClassNotFoundException {
+
+        Compte compte = null;
+        Connection connection = PersistanteManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( FIND_BY_ID_QUERY ) ) {
+                ps.setInt( 1, id );
+                try ( ResultSet rs = ps.executeQuery() ) {
+                    if ( rs.next() ) {
+                        compte = new Compte();
+                        compte.setId( rs.getInt( "id" ) );
+                        compte.setSolde( rs.getDouble( "solde" ) );
+                        compte.setDecouvert( rs.getDouble( "decouvert" ) );
+                        compte.setTauxInteret( rs.getDouble( "tauxInteret" ) );
+                        compte.setTypeCompte(
+                                new TypeCompteRepository().getOneById( rs.getInt("typeCompte") )
+                        );
+                        compte.setAgence(
+                                (new AgenceRepository().getOneById( rs.getInt("agence") ) )
+                        );
+                    }
+                }
+            }
+        }
+        return compte;
     }
 
     @Override
