@@ -34,7 +34,8 @@ public class TypeCompte {
 
   @Override
   public String toString(){
-    return "";
+    return  "Id: " + Id +
+            " | libelle: " + libelle;
   }
 
   //endregion

@@ -7,6 +7,7 @@ import Repository.CompteRepository;
 import Repository.OperationRepository;
 import Repository.TypeCompteRepository;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -239,6 +240,7 @@ public class main {
                                     valid = false;
                                     System.out.println("Saisissez l'Id du type de compte a supprimer");
                                     int selectTypeCompte = sc.nextInt();
+
                                     sc.nextLine();
                                     for (TypeCompte tmpTypeCompte : listTypeCompte){
                                         if (tmpTypeCompte.getId() == selectTypeCompte){
@@ -258,18 +260,96 @@ public class main {
                     }
                     break;
                 case 3:
+                    ArrayList<TypeCompte> listeTypeCompte;
+                    ArrayList<Agence> listeAgence;
                     System.out.println("formulaire pour " + mode + " des comptes");
-                    switch (mode){
-                        case INSERT:
-                            break;
-                        case UPDATE:
-                            break;
-                        case DELETE:
-                            break;
-                        case SEE:
-                            //TODO
-                            break;
+                    try(CompteRepository repo = new CompteRepository()){
+                        ArrayList<Compte> listCompte = repo.getAll();
+                        Compte compte = null;
+                        double solde;
+                        double decouvert;
+                        double tauxInteret;
+                        TypeCompte typeCompte = null;
+                        Agence agence = null;
+                        switch (mode){
+                            case INSERT:
+                                boolean valid;
+                                System.out.println("Saisissez le solde du compte");
+                                solde = sc.nextDouble();
+                                try(TypeCompteRepository typeCompteRepo = new TypeCompteRepository()){
+                                    listeTypeCompte = typeCompteRepo.getAll();
+                                }
+                                for (TypeCompte tmpTypeCompte : listeTypeCompte){
+                                    System.out.println(tmpTypeCompte.toString());
+                                }
+                                do{
+                                    valid = false;
+                                    System.out.println("Saisissez l'id du type de compte" + SEE);
+                                    int selectTypeCompte = sc.nextInt();
+                                    sc.nextLine();
+                                    for (TypeCompte tmpTypeCompte : listeTypeCompte){
+                                        if (tmpTypeCompte.getId() == selectTypeCompte){
+                                            typeCompte = tmpTypeCompte;
+                                            valid = true;
+                                            break;
+                                        }
+                                    }
+                                } while(!valid);
+                                try(AgenceRepository agenceRepo = new AgenceRepository()){
+                                    listeAgence = agenceRepo.getAll();
+                                }
+                                for (Agence tmpAgence : listeAgence){
+                                    System.out.println(tmpAgence.toString());
+                                }
+                                do {
+                                    valid = false;
+                                    System.out.println("Saisissez l'id de l'agence" + SEE);
+                                    int selectAgence = sc.nextInt();
+                                    sc.nextLine();
+                                    for (Agence tmpAgence : listeAgence){
+                                        if(tmpAgence.getId() == selectAgence){
+                                            agence = tmpAgence;
+                                            valid = true;
+                                            break;
+                                        }
+                                    }
+                                } while(!valid);
+                                do{
+                                    valid = false;
+                                    System.out.println("Saisissez le taux d'interet");
+                                    tauxInteret = sc.nextDouble();
+                                    if (agence.getId() != 3 && tauxInteret != 0){
+                                        System.out.println("seul un compte épargne peu avoir un taux d'interet");
+                                        break;
+                                    } else {
+                                        valid = true;
+                                    }
+                                } while (!valid);
+                                do{
+                                    System.out.println("Saisissez le découvert");
+                                    decouvert = sc.nextDouble();
+                                    if(agence.getId() == 1){
+                                        System.out.println("seul un compte avoir peut avoir un découvert");
+                                    } else {
+                                        valid = true;
+                                    }
+                                }while (!valid);
+                                compte = new Compte(solde, typeCompte, decouvert, tauxInteret, agence);
+                                repo.Add(compte);
+                                System.out.println("Compte créer avec succès");
+                                break;
+                            case UPDATE:
+                                //TODO
+                                break;
+                            case DELETE:
+                                //TODO
+                                break;
+                            case SEE:
+                                //TODO
+                                break;
+                        }
                     }
+
                     break;
                 case 4:
                     if (!mode.equals(SEE)) break;
