@@ -97,6 +97,37 @@ public class Operation {
 
     return exec;
   }
+
+  public boolean Retrait(){
+    boolean exec = false, compteValid = false;
+    if (compteDeb.getTypeCompte().getLibelle().equals("Simple")){
+      if ((compteDeb.getSolde() - montant) >= compteDeb.getDecouvert() ){
+        compteValid = true;
+      }
+    }else if(compteDeb.getTypeCompte().getLibelle().equals("Payant")){
+      double tax = (montant*0.05);
+      compteDeb.setSolde(compteDeb.getSolde() - tax);
+      if (compteDeb.getSolde() - montant >= 0){
+        compteValid = true;
+      }else{
+        compteDeb.setSolde(compteDeb.getSolde() + tax);
+      }
+    }
+    if (compteValid){
+      compteDeb.setSolde(compteDeb.getSolde() - montant);
+      try(OperationRepository opRepo = new OperationRepository(); CompteRepository comptRepo = new CompteRepository() ) {
+        opRepo.Add(this);
+        comptRepo.Update(compteDeb);
+        exec = true;
+      }catch (Exception e){
+        System.out.println("Une erreur est survenue lors de la transaction \n Exception: " + e);
+      }
+    }else{
+      System.out.println("Le compte debitant ne permet pas d'effectuer la transaction");
+    }
+
+    return exec;
+  }
   //endregion
 
 }

@@ -1,6 +1,10 @@
 import BO.Agence;
+import BO.Compte;
+import BO.Operation;
 import BO.TypeCompte;
 import Repository.AgenceRepository;
+import Repository.CompteRepository;
+import Repository.OperationRepository;
 import Repository.TypeCompteRepository;
 
 import java.util.ArrayList;
@@ -88,7 +92,7 @@ public class main {
                                 boolean valid;
                                 do {
                                     valid = true;
-                                    System.out.println("Saississez le code de la nouvelle agence :");
+                                    System.out.println("Saisissez le code de la nouvelle agence :");
                                     code = sc.nextLine();
                                     for (Agence tmpAgence : listAgence){
                                         if (tmpAgence.getCode().equals(code)) {
@@ -97,7 +101,7 @@ public class main {
                                         }
                                     }
                                 }while (!valid);
-                                System.out.println("Saississez l'adresse de la nouvelle agence :");
+                                System.out.println("Saisissez l'adresse de la nouvelle agence :");
                                 adresse = sc.nextLine();
                                 agence = new Agence(code, adresse);
                                 repo.Add(agence);
@@ -109,7 +113,7 @@ public class main {
                                 }
                                 do {
                                     valid = false;
-                                    System.out.println("Saississez l'Id de l'agence a modifier");
+                                    System.out.println("Saisissez l'Id de l'agence a modifier");
                                     int selectAgence = sc.nextInt();
                                     sc.nextLine();
                                     for (Agence tmpAgence : listAgence){
@@ -122,7 +126,7 @@ public class main {
                                 }while (!valid);
                                 do {
                                     valid = true;
-                                    System.out.println("Saississez le code de la nouvelle agence :");
+                                    System.out.println("Saisissez le code de la nouvelle agence :");
                                     code = sc.nextLine();
                                     for (Agence tmpAgence : listAgence){
                                         if (agence.getId() != tmpAgence.getId() &&  tmpAgence.getCode().equals(code)) {
@@ -131,7 +135,7 @@ public class main {
                                         }
                                     }
                                 }while (!valid);
-                                System.out.println("Saississez l'adresse de la nouvelle agence :");
+                                System.out.println("Saisissez l'adresse de la nouvelle agence :");
                                 adresse = sc.nextLine();
                                 agence.setCode(code);
                                 agence.setAdresse(adresse);
@@ -144,7 +148,7 @@ public class main {
                                 }
                                 do {
                                     valid = false;
-                                    System.out.println("Saississez l'Id de l'agence a supprimer");
+                                    System.out.println("Saisissez l'Id de l'agence a supprimer");
                                     int selectAgence = sc.nextInt();
                                     sc.nextLine();
                                     for (Agence tmpAgence : listAgence){
@@ -173,7 +177,7 @@ public class main {
                                 boolean valid;
                                 do {
                                     valid = true;
-                                    System.out.println("Saississez le libelle du nouveau type de compte :");
+                                    System.out.println("Saisissez le libelle du nouveau type de compte :");
                                     libelle = sc.nextLine();
                                     for (TypeCompte tmptypeCompte : listTypeCompte){
                                         if (tmptypeCompte.getLibelle().equals(libelle)) {
@@ -192,7 +196,7 @@ public class main {
                                 }
                                 do {
                                     valid = false;
-                                    System.out.println("Saississez l'Id du type de compte a modifier");
+                                    System.out.println("Saisissez l'Id du type de compte a modifier");
                                     int selectAgence = sc.nextInt();
                                     sc.nextLine();
                                     for (TypeCompte tmptypeCompte : listTypeCompte){
@@ -205,7 +209,7 @@ public class main {
                                 }while (!valid);
                                 do {
                                     valid = true;
-                                    System.out.println("Saississez le libelle du nouveau type de compte :");
+                                    System.out.println("Saisissez le libelle du nouveau type de compte :");
                                     libelle = sc.nextLine();
                                     for (TypeCompte tmptypeCompte : listTypeCompte){
                                         if (tmptypeCompte.getId() != typeCompte.getId() &&  tmptypeCompte.getLibelle().equals(libelle)) {
@@ -224,7 +228,7 @@ public class main {
                                 }
                                 do {
                                     valid = false;
-                                    System.out.println("Saississez l'Id du type de compte a supprimer");
+                                    System.out.println("Saisissez l'Id du type de compte a supprimer");
                                     int selectTypeCompte = sc.nextInt();
                                     sc.nextLine();
                                     for (TypeCompte tmpTypeCompte : listTypeCompte){
@@ -264,8 +268,117 @@ public class main {
 
     }
 
-    private static void OperationMenu(){
+    private static void OperationMenu() throws Exception {
+        boolean exit = false;
 
+        do {
+            System.out.println("------- Menu d'operation -------");
+            System.out.println("1 - Faire un virement");
+            System.out.println("2 - Faire un retrait");
+            System.out.println("0 - Quitter le menu d'operation" );
+
+            int choice;
+            Scanner sc = new Scanner(System.in);
+            choice = sc.nextInt();
+            sc.nextLine();
+
+
+            Operation op = null;
+            ArrayList<Compte> listCompte = null;
+            Compte deb = null;
+            Compte benef = null;
+            Double montant = 0.00;
+            boolean valid;
+            try(OperationRepository repo = new OperationRepository()){
+
+                switch (choice){
+                    case 1:
+                        try(CompteRepository compteRepo = new CompteRepository()){
+                            listCompte = compteRepo.getAll();
+                        }
+                        for (Compte compte : listCompte){
+                            System.out.println(compte.toStringShort());
+                        }
+
+                        do {
+                            valid = false;
+                            System.out.println("Saisissez l'Id du compte a debiter");
+                            int selectCompte = sc.nextInt();
+                            sc.nextLine();
+                            for (Compte tmpCompte : listCompte){
+                                if (tmpCompte.getId() == selectCompte){
+                                    deb = tmpCompte;
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                        }while (!valid);
+                        do {
+                            valid = false;
+                            System.out.println("Saisissez l'Id du compte beneficiaire");
+                            int selectCompte = sc.nextInt();
+                            sc.nextLine();
+                            for (Compte tmpCompte : listCompte){
+                                if (tmpCompte.getId() == selectCompte){
+                                    if (selectCompte == deb.getId()){
+                                        System.out.println("Ce compte est deja choisie comme debitant, veuillez selectionner un autre compte");
+                                        break;
+                                    }
+                                    benef = tmpCompte;
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                        }while (!valid);
+                        System.out.println("Saisissez le montant de l'operation");
+                        montant = sc.nextDouble();
+                        sc.nextLine();
+
+                        op = new Operation(deb, benef, montant);
+                        if (op.ExecOpe()){
+                            System.out.println("La transaction c'est bien executer");
+                        }
+                        break;
+                    case 2:
+
+                        try(CompteRepository compteRepo = new CompteRepository()){
+                            listCompte = compteRepo.getAll();
+                        }
+                        for (Compte compte : listCompte){
+                            System.out.println(compte.toStringShort());
+                        }
+
+                        do {
+                            valid = false;
+                            System.out.println("Saisissez l'Id du compte a debiter");
+                            int selectCompte = sc.nextInt();
+                            sc.nextLine();
+                            for (Compte tmpCompte : listCompte){
+                                if (tmpCompte.getId() == selectCompte){
+                                    deb = tmpCompte;
+                                    valid = true;
+                                    break;
+                                }
+                            }
+                        }while (!valid);
+
+                        System.out.println("Saisissez le montant a retirer");
+                        montant = sc.nextDouble();
+                        sc.nextLine();
+
+                        op = new Operation(deb, deb, montant);
+                        if (op.Retrait()){
+                            System.out.println("La transaction c'est bien executer");
+                        }
+
+                        break;
+                    case 0:
+                        exit = true;
+                        break;
+                }
+
+            }
+        }while (!exit);
     }
 
 }
