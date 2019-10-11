@@ -18,6 +18,7 @@ public class OperationRepository implements IRepository<Operation>, AutoCloseabl
     private static final String REMOVE_QUERY = "DELETE FROM operation WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM operation WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM operation";
+    private static final String FIND_BY_COMPTE = "SELECT operation.id, compteDebId, compteBenefId, montant from operation inner join compte on operation.deb = compte.id where compte.id = ?";
 
     @Override
     public ArrayList<Operation> getAll() throws SQLException, IOException, ClassNotFoundException {
@@ -68,6 +69,32 @@ public class OperationRepository implements IRepository<Operation>, AutoCloseabl
         }
         return operation;
 
+    }
+
+    public ArrayList<Operation> getByCompte(Compte compte) throws SQLException, IOException, ClassNotFoundException {
+
+        ArrayList<Operation> listOperation = new ArrayList<>();
+        Connection connection = PersistanteManager.getConnection();
+        if ( connection != null ) {
+            try ( PreparedStatement ps = connection.prepareStatement( FIND_BY_COMPTE ) ) {
+                ps.setInt( 1, compte.getId() );
+                try ( ResultSet rs = ps.executeQuery() ) {
+                    if ( rs.next() ) {
+                        Operation operation = new Operation();
+                        operation.setId( rs.getInt( "id" ) );
+                        operation.setCompteDeb(
+                                (new CompteRepository().getOneById( rs.getInt("compteDebId") ) )
+                        );
+                        operation.setCompteBenef(
+                                (new CompteRepository().getOneById( rs.getInt("compteBenefId") ) )
+                        );
+                        operation.setMontant( rs.getDouble( "montant" ) );
+                        listOperation.add(operation);
+                    }
+                }
+            }
+        }
+        return listOperation;
     }
 
     @Override

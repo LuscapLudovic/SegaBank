@@ -15,6 +15,7 @@ public class main {
     private static final String INSERT = "ajouter";
     private static final String DELETE = "supprimer";
     private static final String UPDATE = "modifier";
+    private static final String SEE = "regarder";
 
     public static void main( String... args) throws Exception {
 
@@ -31,7 +32,8 @@ public class main {
             System.out.println("1 - " + INSERT + " des données");
             System.out.println("2 - " + UPDATE + " des données");
             System.out.println("3 - " + DELETE + " des données");
-            System.out.println("4 - Effectuer des transactions");
+            System.out.println("4 - " + SEE + " des données");
+            System.out.println("5 - Effectuer des transactions");
             System.out.println("0 - Quitter le programme");
 
             int choice;
@@ -50,6 +52,8 @@ public class main {
                     CRUDMenu(DELETE);
                     break;
                 case 4:
+                    CRUDMenu(SEE);
+                case 5:
                     OperationMenu();
                     break;
                 case 0:
@@ -72,6 +76,9 @@ public class main {
             System.out.println("1 - " + mode + " des Agences");
             System.out.println("2 - " + mode + " des TypeComptes");
             System.out.println("3 - " + mode + " des Compte");
+            if (mode.equals(SEE)){
+                System.out.println("4 - " + mode + " Operations");
+            }
             System.out.println("0 - Quitter le menu " + mode );
 
             int choice;
@@ -87,20 +94,20 @@ public class main {
                         Agence agence = null;
                         String code = "";
                         String adresse = "";
-                        switch (mode){
+                        switch (mode) {
                             case INSERT:
                                 boolean valid;
                                 do {
                                     valid = true;
                                     System.out.println("Saisissez le code de la nouvelle agence :");
                                     code = sc.nextLine();
-                                    for (Agence tmpAgence : listAgence){
+                                    for (Agence tmpAgence : listAgence) {
                                         if (tmpAgence.getCode().equals(code)) {
                                             valid = false;
                                             break;
                                         }
                                     }
-                                }while (!valid);
+                                } while (!valid);
                                 System.out.println("Saisissez l'adresse de la nouvelle agence :");
                                 adresse = sc.nextLine();
                                 agence = new Agence(code, adresse);
@@ -108,7 +115,7 @@ public class main {
                                 System.out.println("L'agence a bien ete ajouter");
                                 break;
                             case UPDATE:
-                                for (Agence tmpAgence : listAgence){
+                                for (Agence tmpAgence : listAgence) {
                                     System.out.println(tmpAgence.toString());
                                 }
                                 do {
@@ -116,25 +123,25 @@ public class main {
                                     System.out.println("Saisissez l'Id de l'agence a modifier");
                                     int selectAgence = sc.nextInt();
                                     sc.nextLine();
-                                    for (Agence tmpAgence : listAgence){
-                                        if (tmpAgence.getId() == selectAgence){
+                                    for (Agence tmpAgence : listAgence) {
+                                        if (tmpAgence.getId() == selectAgence) {
                                             agence = tmpAgence;
                                             valid = true;
                                             break;
                                         }
                                     }
-                                }while (!valid);
+                                } while (!valid);
                                 do {
                                     valid = true;
                                     System.out.println("Saisissez le code de la nouvelle agence :");
                                     code = sc.nextLine();
-                                    for (Agence tmpAgence : listAgence){
-                                        if (agence.getId() != tmpAgence.getId() &&  tmpAgence.getCode().equals(code)) {
+                                    for (Agence tmpAgence : listAgence) {
+                                        if (agence.getId() != tmpAgence.getId() && tmpAgence.getCode().equals(code)) {
                                             valid = false;
                                             break;
                                         }
                                     }
-                                }while (!valid);
+                                } while (!valid);
                                 System.out.println("Saisissez l'adresse de la nouvelle agence :");
                                 adresse = sc.nextLine();
                                 agence.setCode(code);
@@ -143,7 +150,7 @@ public class main {
                                 System.out.println("L'agence a bien ete mise a jour");
                                 break;
                             case DELETE:
-                                for (Agence tmpAgence : listAgence){
+                                for (Agence tmpAgence : listAgence) {
                                     System.out.println(tmpAgence.toString());
                                 }
                                 do {
@@ -151,19 +158,21 @@ public class main {
                                     System.out.println("Saisissez l'Id de l'agence a supprimer");
                                     int selectAgence = sc.nextInt();
                                     sc.nextLine();
-                                    for (Agence tmpAgence : listAgence){
-                                        if (tmpAgence.getId() == selectAgence){
+                                    for (Agence tmpAgence : listAgence) {
+                                        if (tmpAgence.getId() == selectAgence) {
                                             agence = tmpAgence;
                                             valid = true;
                                             break;
                                         }
                                     }
-                                }while (!valid);
+                                } while (!valid);
                                 repo.Remove(agence);
                                 System.out.println("L'agence a bien ete supprimer");
                                 break;
+                            case SEE:
+                                //TODO
+                                break;
                         }
-
                     }
                     break;
                 case 2:
@@ -242,6 +251,9 @@ public class main {
                                 repo.Remove(typeCompte);
                                 System.out.println("Le type de compte a bien ete supprimer");
                                 break;
+                            case SEE:
+                                //TODO
+                                break;
                         }
                     }
                     break;
@@ -254,7 +266,44 @@ public class main {
                             break;
                         case DELETE:
                             break;
+                        case SEE:
+                            //TODO
+                            break;
                     }
+                    break;
+                case 4:
+                    if (!mode.equals(SEE)) break;
+                    ArrayList<Operation> listOpe;
+                    ArrayList<Compte> listCompte;
+                    Compte compte = null;
+                    boolean valid;
+                    try(CompteRepository compteRepo = new CompteRepository()){
+                        listCompte = compteRepo.getAll();
+                    }
+                    for (Compte tmpCompte : listCompte){
+                        System.out.println(tmpCompte.toStringShort());
+                    }
+                    do {
+                        valid = false;
+                        System.out.println("Saisissez l'Id du compte des operations a " + SEE );
+                        int selectCompte = sc.nextInt();
+                        sc.nextLine();
+                        for (Compte tmpCompte : listCompte){
+                            if (tmpCompte.getId() == selectCompte){
+                                compte = tmpCompte;
+                                valid = true;
+                                break;
+                            }
+                        }
+                    }while (!valid);
+
+                    try(OperationRepository repo = new OperationRepository()){
+                        listOpe = repo.getByCompte(compte);
+                    }
+                    for (Operation op : listOpe){
+                        System.out.println(op.toString());
+                    }
+                    sc.nextLine();
                     break;
                 case 0:
                     exit = true;
