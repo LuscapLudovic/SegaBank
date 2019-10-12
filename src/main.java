@@ -443,7 +443,7 @@ public class main {
                                 repo.Remove(compte);
                                 break;
                             case SEE:
-                                //TODO
+                                repo.getAll(); // à test
                                 break;
                         }
                     }
