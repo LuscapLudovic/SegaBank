@@ -339,10 +339,108 @@ public class main {
                                 System.out.println("Compte créer avec succès");
                                 break;
                             case UPDATE:
-                                //TODO
+                                for(Compte tmpCompte : listCompte){
+                                    System.out.println(tmpCompte.toString());
+                                }
+                                do {
+                                    valid = false;
+                                    System.out.println("Saisissez l'Id du compte à modifier");
+                                    int selectCompte = sc.nextInt();
+                                    sc.nextLine();
+                                    for(Compte tmpCompte : listCompte){
+                                        if(tmpCompte.getId() == selectCompte){
+                                            valid = true;
+                                            break;
+                                        }
+                                    }
+                                }while(!valid);
+                                try(TypeCompteRepository typeCompteRepo = new TypeCompteRepository()){
+                                    listeTypeCompte = typeCompteRepo.getAll();
+                                }
+                                for (TypeCompte tmpTypeCompte : listeTypeCompte){
+                                    System.out.println(tmpTypeCompte.toString());
+                                }
+                                do{
+                                    valid = false;
+                                    System.out.println("Saisissez la nouvelle id du type de compte" + SEE);
+                                    int selectTypeCompte = sc.nextInt();
+                                    sc.nextLine();
+                                    for (TypeCompte tmpTypeCompte : listeTypeCompte){
+                                        if (tmpTypeCompte.getId() == selectTypeCompte){
+                                            typeCompte = tmpTypeCompte;
+                                            valid = true;
+                                            break;
+                                        }
+                                    }
+                                }while(!valid);
+                                try(AgenceRepository agenceRepository = new AgenceRepository()){
+                                    listeAgence = agenceRepository.getAll();
+                                }
+                                for(Agence tmpAgence : listeAgence){
+                                    System.out.println(tmpAgence.toString());
+                                }
+                                do{
+                                    valid = false;
+                                    System.out.println("Saisissez la nouvelle agence du compte" + SEE);
+                                    int selectAgence = sc.nextInt();
+                                    sc.nextLine();
+                                    for(Agence tmpAgence : listeAgence){
+                                        if(tmpAgence.getId() == selectAgence){
+                                            agence = tmpAgence;
+                                            valid = true;
+                                            break;
+                                        }
+                                    }
+                                }while (!valid);
+                                System.out.println("Saisissez le nouveau solde du compte");
+                                solde = sc.nextDouble();
+                                do{
+                                    valid = false;
+                                    System.out.println("Saisissez le nouveau taux d'interet");
+                                    tauxInteret = sc.nextDouble();
+                                    if (agence.getId() != 3 && tauxInteret != 0){
+                                        System.out.println("seul un compte épargne peu avoir un taux d'interet");
+                                        break;
+                                    } else {
+                                        valid = true;
+                                    }
+                                } while (!valid);
+                                do{
+                                    System.out.println("Saisissez le nouveau découvert");
+                                    decouvert = sc.nextDouble();
+                                    if(agence.getId() == 1){
+                                        System.out.println("seul un compte avoir peut avoir un découvert");
+                                    } else {
+                                        valid = true;
+                                    }
+                                }while (!valid);
+                                compte.setAgence(agence);
+                                compte.setDecouvert(decouvert);
+                                compte.setSolde(solde);
+                                compte.setTauxInteret(tauxInteret);
+                                compte.setTypeCompte(typeCompte);
+                                repo.Update(compte);
+                                System.out.println("Le compte à bien ete mis a jour");
                                 break;
                             case DELETE:
-                                //TODO
+                                for(Compte tmpCompte : listCompte){
+                                    System.out.println(tmpCompte.toString());
+                                }
+                                do {
+                                    valid = false;
+                                    System.out.println("Saisissez l'Id du compte a supprimer");
+                                    int selectCompte = sc.nextInt();
+
+                                    sc.nextLine();
+                                    for (Compte tmpCompte : listCompte){
+                                        if (tmpCompte.getId() == selectCompte){
+                                            compte = tmpCompte;
+                                            valid = true;
+                                            break;
+                                        }
+                                    }
+                                }while (!valid);
+                                repo.Remove(compte);
                                 break;
                             case SEE:
                                 //TODO
