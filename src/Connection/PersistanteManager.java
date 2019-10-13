@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class PersistanteManager {
+public class PersistanteManager implements AutoCloseable {
 
     private static final String PROPS_FILE = "./ressources/db.properties";
 
@@ -36,7 +36,8 @@ public class PersistanteManager {
         return connection;
     }
 
-    public static void closeConnection() throws SQLException {
+    @Override
+    public void close() throws Exception {
         if (connection != null && connection.isValid( 2 )) {
             connection.close();
         }

@@ -93,8 +93,8 @@ public class main {
                     try(AgenceRepository repo = new AgenceRepository()){
                         ArrayList<Agence> listAgence = repo.getAll();
                         Agence agence = null;
-                        String code = "";
-                        String adresse = "";
+                        String code;
+                        String adresse;
                         switch (mode) {
                             case INSERT:
                                 boolean valid;
@@ -137,7 +137,7 @@ public class main {
                                     System.out.println("Saisissez le code de la nouvelle agence :");
                                     code = sc.nextLine();
                                     for (Agence tmpAgence : listAgence) {
-                                        if (agence.getId() != tmpAgence.getId() && tmpAgence.getCode().equals(code)) {
+                                        if (!agence.getId().equals(tmpAgence.getId()) && tmpAgence.getCode().equals(code)) {
                                             valid = false;
                                             break;
                                         }
@@ -171,7 +171,11 @@ public class main {
                                 System.out.println("L'agence a bien ete supprimer");
                                 break;
                             case SEE:
-                                //TODO
+                                System.out.println("Liste des Agences : ");
+                                for (Agence tmpAgence: repo.getAll()) {
+                                    System.out.println(tmpAgence.toString());
+                                }
+                                sc.nextLine();
                                 break;
                         }
                     }
@@ -181,7 +185,7 @@ public class main {
                     try(TypeCompteRepository repo = new TypeCompteRepository()){
                         ArrayList<TypeCompte> listTypeCompte = repo.getAll();
                         TypeCompte typeCompte = null;
-                        String libelle = "";
+                        String libelle;
                         switch (mode){
                             case INSERT:
                                 boolean valid;
@@ -222,7 +226,7 @@ public class main {
                                     System.out.println("Saisissez le libelle du nouveau type de compte :");
                                     libelle = sc.nextLine();
                                     for (TypeCompte tmptypeCompte : listTypeCompte){
-                                        if (tmptypeCompte.getId() != typeCompte.getId() &&  tmptypeCompte.getLibelle().equals(libelle)) {
+                                        if (!tmptypeCompte.getId().equals(typeCompte.getId()) &&  tmptypeCompte.getLibelle().equals(libelle)) {
                                             valid = false;
                                             break;
                                         }
@@ -254,7 +258,11 @@ public class main {
                                 System.out.println("Le type de compte a bien ete supprimer");
                                 break;
                             case SEE:
-                                //TODO
+                                System.out.println("Liste des types de Compte :");
+                                for (TypeCompte tmpTypeCompte: repo.getAll()){
+                                    System.out.println(tmpTypeCompte.toString());
+                                }
+                                sc.nextLine();
                                 break;
                         }
                     }
@@ -320,12 +328,12 @@ public class main {
                                     tauxInteret = sc.nextDouble();
                                     if (agence.getId() != 3 && tauxInteret != 0){
                                         System.out.println("seul un compte épargne peu avoir un taux d'interet");
-                                        break;
                                     } else {
                                         valid = true;
                                     }
                                 } while (!valid);
                                 do{
+                                    valid = false;
                                     System.out.println("Saisissez le découvert");
                                     decouvert = sc.nextDouble();
                                     if(agence.getId() == 1){
@@ -400,12 +408,12 @@ public class main {
                                     tauxInteret = sc.nextDouble();
                                     if (agence.getId() != 3 && tauxInteret != 0){
                                         System.out.println("seul un compte épargne peu avoir un taux d'interet");
-                                        break;
                                     } else {
                                         valid = true;
                                     }
                                 } while (!valid);
                                 do{
+                                    valid = false;
                                     System.out.println("Saisissez le nouveau découvert");
                                     decouvert = sc.nextDouble();
                                     if(agence.getId() == 1){
@@ -441,9 +449,14 @@ public class main {
                                     }
                                 }while (!valid);
                                 repo.Remove(compte);
+                                System.out.println("Le compte a bien été supprimé");
                                 break;
                             case SEE:
-                                repo.getAll(); // à test
+                                System.out.println("Liste des comptes :");
+                                for (Compte tmpCompte : repo.getAll()){
+                                    System.out.println(tmpCompte.toString());
+                                }
+                                sc.nextLine();
                                 break;
                         }
                     }
@@ -510,100 +523,97 @@ public class main {
             sc.nextLine();
 
 
-            Operation op = null;
-            ArrayList<Compte> listCompte = null;
+            Operation op;
+            ArrayList<Compte> listCompte;
             Compte deb = null;
             Compte benef = null;
-            Double montant = 0.00;
+            double montant;
             boolean valid;
-            try(OperationRepository repo = new OperationRepository()){
 
-                switch (choice){
-                    case 1:
-                        try(CompteRepository compteRepo = new CompteRepository()){
-                            listCompte = compteRepo.getAll();
-                        }
-                        for (Compte compte : listCompte){
-                            System.out.println(compte.toStringShort());
-                        }
+            switch (choice){
+                case 1:
+                    try(CompteRepository compteRepo = new CompteRepository()){
+                        listCompte = compteRepo.getAll();
+                    }
+                    for (Compte compte : listCompte){
+                        System.out.println(compte.toStringShort());
+                    }
 
-                        do {
-                            valid = false;
-                            System.out.println("Saisissez l'Id du compte a debiter");
-                            int selectCompte = sc.nextInt();
-                            sc.nextLine();
-                            for (Compte tmpCompte : listCompte){
-                                if (tmpCompte.getId() == selectCompte){
-                                    deb = tmpCompte;
-                                    valid = true;
-                                    break;
-                                }
-                            }
-                        }while (!valid);
-                        do {
-                            valid = false;
-                            System.out.println("Saisissez l'Id du compte beneficiaire");
-                            int selectCompte = sc.nextInt();
-                            sc.nextLine();
-                            for (Compte tmpCompte : listCompte){
-                                if (tmpCompte.getId() == selectCompte){
-                                    if (selectCompte == deb.getId()){
-                                        System.out.println("Ce compte est deja choisie comme debitant, veuillez selectionner un autre compte");
-                                        break;
-                                    }
-                                    benef = tmpCompte;
-                                    valid = true;
-                                    break;
-                                }
-                            }
-                        }while (!valid);
-                        System.out.println("Saisissez le montant de l'operation");
-                        montant = sc.nextDouble();
+                    do {
+                        valid = false;
+                        System.out.println("Saisissez l'Id du compte a debiter");
+                        int selectCompte = sc.nextInt();
                         sc.nextLine();
-
-                        op = new Operation(deb, benef, montant);
-                        if (op.ExecOpe()){
-                            System.out.println("La transaction c'est bien executer");
+                        for (Compte tmpCompte : listCompte){
+                            if (tmpCompte.getId() == selectCompte){
+                                deb = tmpCompte;
+                                valid = true;
+                                break;
+                            }
                         }
-                        break;
-                    case 2:
-
-                        try(CompteRepository compteRepo = new CompteRepository()){
-                            listCompte = compteRepo.getAll();
-                        }
-                        for (Compte compte : listCompte){
-                            System.out.println(compte.toStringShort());
-                        }
-
-                        do {
-                            valid = false;
-                            System.out.println("Saisissez l'Id du compte a debiter");
-                            int selectCompte = sc.nextInt();
-                            sc.nextLine();
-                            for (Compte tmpCompte : listCompte){
-                                if (tmpCompte.getId() == selectCompte){
-                                    deb = tmpCompte;
-                                    valid = true;
+                    }while (!valid);
+                    do {
+                        valid = false;
+                        System.out.println("Saisissez l'Id du compte beneficiaire");
+                        int selectCompte = sc.nextInt();
+                        sc.nextLine();
+                        for (Compte tmpCompte : listCompte){
+                            if (tmpCompte.getId() == selectCompte){
+                                if (selectCompte == deb.getId()){
+                                    System.out.println("Ce compte est deja choisie comme debitant, veuillez selectionner un autre compte");
                                     break;
                                 }
+                                benef = tmpCompte;
+                                valid = true;
+                                break;
                             }
-                        }while (!valid);
-
-                        System.out.println("Saisissez le montant a retirer");
-                        montant = sc.nextDouble();
-                        sc.nextLine();
-
-                        op = new Operation(deb, deb, montant);
-                        if (op.Retrait()){
-                            System.out.println("La transaction c'est bien executer");
                         }
+                    }while (!valid);
+                    System.out.println("Saisissez le montant de l'operation");
+                    montant = sc.nextDouble();
+                    sc.nextLine();
 
-                        break;
-                    case 0:
-                        exit = true;
-                        break;
-                }
+                    op = new Operation(deb, benef, montant);
+                    if (op.ExecOpe()){
+                        System.out.println("La transaction c'est bien executer");
+                    }
+                    break;
+                case 2:
 
+                    try(CompteRepository compteRepo = new CompteRepository()){
+                        listCompte = compteRepo.getAll();
+                    }
+                    for (Compte compte : listCompte){
+                        System.out.println(compte.toStringShort());
+                    }
+
+                    do {
+                        valid = false;
+                        System.out.println("Saisissez l'Id du compte a debiter");
+                        int selectCompte = sc.nextInt();
+                        sc.nextLine();
+                        for (Compte tmpCompte : listCompte){
+                            if (tmpCompte.getId() == selectCompte){
+                                deb = tmpCompte;
+                                valid = true;
+                                break;
+                            }
+                        }
+                    }while (!valid);
+
+                    System.out.println("Saisissez le montant a retirer");
+                    montant = sc.nextDouble();
+                    sc.nextLine();
+
+                    op = new Operation(deb, deb, montant);
+                    if (op.Retrait()){
+                        System.out.println("La transaction c'est bien executer");
+                    }
+
+                    break;
+                case 0:
+                    exit = true;
+                    break;
             }
         }while (!exit);
     }

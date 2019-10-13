@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TypeCompteRepository implements IRepository<TypeCompte>, AutoCloseable {
+public class TypeCompteRepository implements IRepository<TypeCompte>{
 
     private static final String INSERT_QUERY = "INSERT INTO typeCompte (libelle) VALUES(?)";
     private static final String UPDATE_QUERY = "UPDATE typeCompte SET libelle = ? WHERE id = ?";
@@ -22,15 +22,16 @@ public class TypeCompteRepository implements IRepository<TypeCompte>, AutoClosea
     public ArrayList<TypeCompte> getAll () throws SQLException, IOException, ClassNotFoundException
     {
         ArrayList<TypeCompte> listTypeCompte = new ArrayList<>();
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( FIND_ALL_QUERY ) ) {
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        TypeCompte typeCompte = new TypeCompte();
-                        typeCompte.setId( rs.getInt( "id" ) );
-                        typeCompte.setLibelle( rs.getString( "libelle" ) );
-                        listTypeCompte.add(typeCompte);
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(FIND_ALL_QUERY)) {
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            TypeCompte typeCompte = new TypeCompte();
+                            typeCompte.setId(rs.getInt("id"));
+                            typeCompte.setLibelle(rs.getString("libelle"));
+                            listTypeCompte.add(typeCompte);
+                        }
                     }
                 }
             }
@@ -40,15 +41,16 @@ public class TypeCompteRepository implements IRepository<TypeCompte>, AutoClosea
 
     public TypeCompte getOneById(int id) throws SQLException, IOException, ClassNotFoundException {
         TypeCompte typeCompte = null;
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( FIND_BY_ID_QUERY ) ) {
-                ps.setInt( 1, id );
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        typeCompte = new TypeCompte();
-                        typeCompte.setId( rs.getInt( "id" ) );
-                        typeCompte.setLibelle( rs.getString( "libelle" ) );
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_QUERY)) {
+                    ps.setInt(1, id);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            typeCompte = new TypeCompte();
+                            typeCompte.setId(rs.getInt("id"));
+                            typeCompte.setLibelle(rs.getString("libelle"));
+                        }
                     }
                 }
             }
@@ -59,13 +61,14 @@ public class TypeCompteRepository implements IRepository<TypeCompte>, AutoClosea
     @Override
     public void Add(TypeCompte _object) throws SQLException, IOException, ClassNotFoundException {
 
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( INSERT_QUERY ) ) {
-                ps.setString( 1, _object.getLibelle() );
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        _object.setId( rs.getInt( 1 ) );
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(INSERT_QUERY)) {
+                    ps.setString(1, _object.getLibelle());
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            _object.setId(rs.getInt(1));
+                        }
                     }
                 }
             }
@@ -76,27 +79,28 @@ public class TypeCompteRepository implements IRepository<TypeCompte>, AutoClosea
     @Override
     public void Remove(TypeCompte _object) throws SQLException, IOException, ClassNotFoundException {
 
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( REMOVE_QUERY ) ) {
-                ps.setInt( 1, _object.getId());
-
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(REMOVE_QUERY)) {
+                    ps.setInt(1, _object.getId());
+                    ps.executeQuery();
+                }
             }
         }
-
     }
 
     @Override
     public void Update(TypeCompte _object) throws SQLException, IOException, ClassNotFoundException {
 
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( UPDATE_QUERY ) ) {
-                ps.setString( 1, _object.getLibelle() );
-                ps.setInt( 2, _object.getId() );
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        _object.setId( rs.getInt( 1 ) );
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(UPDATE_QUERY)) {
+                    ps.setString(1, _object.getLibelle());
+                    ps.setInt(2, _object.getId());
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            _object.setId(rs.getInt(1));
+                        }
                     }
                 }
             }
@@ -105,7 +109,5 @@ public class TypeCompteRepository implements IRepository<TypeCompte>, AutoClosea
     }
 
     @Override
-    public void close() throws Exception {
-
-    }
+    public void close() throws Exception { }
 }

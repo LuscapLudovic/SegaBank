@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class CompteRepository implements IRepository<Compte>, AutoCloseable {
+public class CompteRepository implements IRepository<Compte> {
 
 
     private static final String INSERT_QUERY = "INSERT INTO compte (solde, decouvert, tauxInteret, typeCompte, agence) VALUES(?,?,?,?,?)";
@@ -23,23 +23,24 @@ public class CompteRepository implements IRepository<Compte>, AutoCloseable {
     public ArrayList<Compte> getAll() throws SQLException, IOException, ClassNotFoundException {
 
         ArrayList<Compte> listCompte = new ArrayList<>();
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( FIND_ALL_QUERY ) ) {
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        Compte compte = new Compte();
-                        compte.setId( rs.getInt( "id" ) );
-                        compte.setSolde( rs.getDouble( "solde" ) );
-                        compte.setDecouvert( rs.getDouble( "decouvert") );
-                        compte.setTauxInteret(rs.getDouble( "tauxInteret" ));
-                        compte.setTypeCompte(
-                                new TypeCompteRepository().getOneById( rs.getInt("typeCompte") )
-                        );
-                        compte.setAgence(
-                                (new AgenceRepository().getOneById( rs.getInt("agence") ) )
-                        );
-                        listCompte.add(compte);
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(FIND_ALL_QUERY)) {
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            Compte compte = new Compte();
+                            compte.setId(rs.getInt("id"));
+                            compte.setSolde(rs.getDouble("solde"));
+                            compte.setDecouvert(rs.getDouble("decouvert"));
+                            compte.setTauxInteret(rs.getDouble("tauxInteret"));
+                            compte.setTypeCompte(
+                                    new TypeCompteRepository().getOneById(rs.getInt("typeCompte"))
+                            );
+                            compte.setAgence(
+                                    (new AgenceRepository().getOneById(rs.getInt("agence")))
+                            );
+                            listCompte.add(compte);
+                        }
                     }
                 }
             }
@@ -50,23 +51,24 @@ public class CompteRepository implements IRepository<Compte>, AutoCloseable {
     public Compte getOneById(Integer id) throws SQLException, IOException, ClassNotFoundException {
 
         Compte compte = null;
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( FIND_BY_ID_QUERY ) ) {
-                ps.setInt( 1, id );
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        compte = new Compte();
-                        compte.setId( rs.getInt( "id" ) );
-                        compte.setSolde( rs.getDouble( "solde" ) );
-                        compte.setDecouvert( rs.getDouble( "decouvert" ) );
-                        compte.setTauxInteret( rs.getDouble( "tauxInteret" ) );
-                        compte.setTypeCompte(
-                                new TypeCompteRepository().getOneById( rs.getInt("typeCompte") )
-                        );
-                        compte.setAgence(
-                                (new AgenceRepository().getOneById( rs.getInt("agence") ) )
-                        );
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(FIND_BY_ID_QUERY)) {
+                    ps.setInt(1, id);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            compte = new Compte();
+                            compte.setId(rs.getInt("id"));
+                            compte.setSolde(rs.getDouble("solde"));
+                            compte.setDecouvert(rs.getDouble("decouvert"));
+                            compte.setTauxInteret(rs.getDouble("tauxInteret"));
+                            compte.setTypeCompte(
+                                    new TypeCompteRepository().getOneById(rs.getInt("typeCompte"))
+                            );
+                            compte.setAgence(
+                                    (new AgenceRepository().getOneById(rs.getInt("agence")))
+                            );
+                        }
                     }
                 }
             }
@@ -78,17 +80,18 @@ public class CompteRepository implements IRepository<Compte>, AutoCloseable {
     public void Add(Compte _object) throws SQLException, IOException, ClassNotFoundException {
 
 
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( INSERT_QUERY ) ) {
-                ps.setDouble( 1, _object.getSolde() );
-                ps.setDouble( 2, _object.getDecouvert() );
-                ps.setDouble( 3, _object.getTauxInteret() );
-                ps.setInt( 4, _object.getTypeCompte().getId() );
-                ps.setInt( 5, _object.getAgence().getId() );
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        _object.setId( rs.getInt( 1 ) );
+        try(Connection connection = PersistanteManager.getConnection()){
+            if ( connection != null ) {
+                try ( PreparedStatement ps = connection.prepareStatement( INSERT_QUERY ) ) {
+                    ps.setDouble( 1, _object.getSolde() );
+                    ps.setDouble( 2, _object.getDecouvert() );
+                    ps.setDouble( 3, _object.getTauxInteret() );
+                    ps.setInt( 4, _object.getTypeCompte().getId() );
+                    ps.setInt( 5, _object.getAgence().getId() );
+                    try ( ResultSet rs = ps.executeQuery() ) {
+                        if ( rs.next() ) {
+                            _object.setId( rs.getInt( 1 ) );
+                        }
                     }
                 }
             }
@@ -99,40 +102,38 @@ public class CompteRepository implements IRepository<Compte>, AutoCloseable {
     @Override
     public void Remove(Compte _object) throws SQLException, IOException, ClassNotFoundException {
 
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( REMOVE_QUERY ) ) {
-                ps.setInt( 1, _object.getId());
-
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(REMOVE_QUERY)) {
+                    ps.setInt(1, _object.getId());
+                    ps.executeQuery();
+                }
             }
         }
-
     }
 
     @Override
     public void Update(Compte _object) throws SQLException, IOException, ClassNotFoundException {
 
-        Connection connection = PersistanteManager.getConnection();
-        if ( connection != null ) {
-            try ( PreparedStatement ps = connection.prepareStatement( UPDATE_QUERY ) ) {
-                ps.setDouble( 1, _object.getSolde() );
-                ps.setDouble( 2, _object.getDecouvert() );
-                ps.setDouble( 3, _object.getTauxInteret() );
-                ps.setInt( 4, _object.getTypeCompte().getId() );
-                ps.setInt( 5, _object.getAgence().getId() );
-                ps.setInt( 6, _object.getId());
-                try ( ResultSet rs = ps.executeQuery() ) {
-                    if ( rs.next() ) {
-                        _object.setId( rs.getInt( 1 ) );
+        try(Connection connection = PersistanteManager.getConnection()) {
+            if (connection != null) {
+                try (PreparedStatement ps = connection.prepareStatement(UPDATE_QUERY)) {
+                    ps.setDouble(1, _object.getSolde());
+                    ps.setDouble(2, _object.getDecouvert());
+                    ps.setDouble(3, _object.getTauxInteret());
+                    ps.setInt(4, _object.getTypeCompte().getId());
+                    ps.setInt(5, _object.getAgence().getId());
+                    ps.setInt(6, _object.getId());
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            _object.setId(rs.getInt(1));
+                        }
                     }
                 }
             }
         }
-
     }
 
     @Override
-    public void close() throws Exception {
-
-    }
+    public void close() throws Exception { }
 }
