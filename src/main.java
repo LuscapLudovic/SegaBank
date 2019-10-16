@@ -76,7 +76,7 @@ public class main {
             System.out.println("------- Menu "+ mode +" -------");
             System.out.println("1 - " + mode + " des Agences");
             System.out.println("2 - " + mode + " des TypeComptes");
-            System.out.println("3 - " + mode + " des Compte");
+            System.out.println("3 - " + mode + " des Comptes");
             if (mode.equals(SEE)){
                 System.out.println("4 - " + mode + " Operations");
             }
@@ -292,7 +292,7 @@ public class main {
                                 }
                                 do{
                                     valid = false;
-                                    System.out.println("Saisissez l'id du type de compte " + SEE);
+                                    System.out.println("Saisissez l'id du type de compte ");
                                     int selectTypeCompte = sc.nextInt();
                                     sc.nextLine();
                                     for (TypeCompte tmpTypeCompte : listeTypeCompte){
@@ -311,7 +311,7 @@ public class main {
                                 }
                                 do {
                                     valid = false;
-                                    System.out.println("Saisissez l'id de l'agence" + SEE);
+                                    System.out.println("Saisissez l'id de l'agence");
                                     int selectAgence = sc.nextInt();
                                     sc.nextLine();
                                     for (Agence tmpAgence : listeAgence){
@@ -367,7 +367,7 @@ public class main {
                                 }
                                 do{
                                     valid = false;
-                                    System.out.println("Saisissez la nouvelle id du type de compte" + SEE);
+                                    System.out.println("Saisissez la nouvelle id du type de compte");
                                     int selectTypeCompte = sc.nextInt();
                                     sc.nextLine();
                                     for (TypeCompte tmpTypeCompte : listeTypeCompte){
@@ -386,7 +386,7 @@ public class main {
                                 }
                                 do{
                                     valid = false;
-                                    System.out.println("Saisissez la nouvelle agence du compte" + SEE);
+                                    System.out.println("Saisissez la nouvelle agence du compte");
                                     int selectAgence = sc.nextInt();
                                     sc.nextLine();
                                     for(Agence tmpAgence : listeAgence){
