@@ -292,7 +292,7 @@ public class main {
                                 }
                                 do{
                                     valid = false;
-                                    System.out.println("Saisissez l'id du type de compte" + SEE);
+                                    System.out.println("Saisissez l'id du type de compte " + SEE);
                                     int selectTypeCompte = sc.nextInt();
                                     sc.nextLine();
                                     for (TypeCompte tmpTypeCompte : listeTypeCompte){
@@ -322,26 +322,23 @@ public class main {
                                         }
                                     }
                                 } while(!valid);
-                                do{
-                                    valid = false;
+                                if (agence.getId() == 3 ){
                                     System.out.println("Saisissez le taux d'interet");
                                     tauxInteret = sc.nextDouble();
-                                    if (agence.getId() != 3 && tauxInteret != 0){
-                                        System.out.println("seul un compte épargne peu avoir un taux d'interet");
-                                    } else {
-                                        valid = true;
-                                    }
-                                } while (!valid);
-                                do{
-                                    valid = false;
+                                } else {
+                                    tauxInteret = 0;
+                                    System.out.println("seul un compte épargne peu avoir un taux d'interet");
+                                }
+
+                                if(agence.getId() == 1){
                                     System.out.println("Saisissez le découvert");
                                     decouvert = sc.nextDouble();
-                                    if(agence.getId() == 1){
-                                        System.out.println("seul un compte avoir peut avoir un découvert");
-                                    } else {
-                                        valid = true;
-                                    }
-                                }while (!valid);
+
+                                } else {
+                                    decouvert = 0;
+                                    System.out.println("seul un compte avoir peut avoir un découvert");
+                                }
+
                                 compte = new Compte(solde, typeCompte, decouvert, tauxInteret, agence);
                                 repo.Add(compte);
                                 System.out.println("Compte créer avec succès");

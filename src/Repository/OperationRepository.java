@@ -109,11 +109,7 @@ public class OperationRepository implements IRepository<Operation>{
                     ps.setInt(1, _object.getCompteDeb().getId());
                     ps.setInt(2, _object.getCompteBenef().getId());
                     ps.setDouble(3, _object.getMontant());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
-                            _object.setId(rs.getInt(1));
-                        }
-                    }
+                    ps.executeUpdate();
                 }
             }
         }
@@ -127,7 +123,7 @@ public class OperationRepository implements IRepository<Operation>{
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(REMOVE_QUERY)) {
                     ps.setInt(1, _object.getId());
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
             }
         }
@@ -143,11 +139,7 @@ public class OperationRepository implements IRepository<Operation>{
                     ps.setInt(2, _object.getCompteBenef().getId());
                     ps.setDouble(3, _object.getMontant());
                     ps.setInt(4, _object.getId());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
-                            _object.setId(rs.getInt(1));
-                        }
-                    }
+                    ps.executeUpdate();
                 }
             }
         }

@@ -26,7 +26,7 @@ public class TypeCompteRepository implements IRepository<TypeCompte>{
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(FIND_ALL_QUERY)) {
                     try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
+                        while (rs.next()) {
                             TypeCompte typeCompte = new TypeCompte();
                             typeCompte.setId(rs.getInt("id"));
                             typeCompte.setLibelle(rs.getString("libelle"));
@@ -65,11 +65,7 @@ public class TypeCompteRepository implements IRepository<TypeCompte>{
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(INSERT_QUERY)) {
                     ps.setString(1, _object.getLibelle());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
-                            _object.setId(rs.getInt(1));
-                        }
-                    }
+                    ps.executeUpdate();
                 }
             }
         }
@@ -83,7 +79,7 @@ public class TypeCompteRepository implements IRepository<TypeCompte>{
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(REMOVE_QUERY)) {
                     ps.setInt(1, _object.getId());
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
             }
         }
@@ -97,11 +93,7 @@ public class TypeCompteRepository implements IRepository<TypeCompte>{
                 try (PreparedStatement ps = connection.prepareStatement(UPDATE_QUERY)) {
                     ps.setString(1, _object.getLibelle());
                     ps.setInt(2, _object.getId());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
-                            _object.setId(rs.getInt(1));
-                        }
-                    }
+                    ps.executeUpdate();
                 }
             }
         }

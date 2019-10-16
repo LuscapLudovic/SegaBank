@@ -93,11 +93,7 @@ public class AgenceRepository implements IRepository<Agence> {
                 try (PreparedStatement ps = connection.prepareStatement(INSERT_QUERY)) {
                     ps.setString(1, _object.getCode());
                     ps.setString(2, _object.getAdresse());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
-                            _object.setId(rs.getInt(1));
-                        }
-                    }
+                    ps.executeUpdate();
                 }
             }
         }
@@ -110,7 +106,7 @@ public class AgenceRepository implements IRepository<Agence> {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(REMOVE_QUERY)) {
                     ps.setInt(1, _object.getId());
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
             }
         }
@@ -125,11 +121,7 @@ public class AgenceRepository implements IRepository<Agence> {
                     ps.setString(1, _object.getCode());
                     ps.setString(2, _object.getAdresse());
                     ps.setInt(3, _object.getId());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
-                            _object.setId(rs.getInt(1));
-                        }
-                    }
+                    ps.executeUpdate();
                 }
             }
         }

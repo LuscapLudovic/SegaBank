@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class CompteRepository implements IRepository<Compte> {
 
 
-    private static final String INSERT_QUERY = "INSERT INTO compte (solde, decouvert, tauxInteret, typeCompte, agence) VALUES(?,?,?,?,?)";
-    private static final String UPDATE_QUERY = "UPDATE compte SET solde = ?, decouvert = ?, tauxInteret = ?, typeCompte = ?, agence = ? WHERE id = ?";
+    private static final String INSERT_QUERY = "INSERT INTO compte (solde, decouvert, tauxInteret, typeCompte_id, agence_id) VALUES(?,?,?,?,?)";
+    private static final String UPDATE_QUERY = "UPDATE compte SET solde = ?, decouvert = ?, tauxInteret = ?, typeCompte_id = ?, agence_id = ? WHERE id = ?";
     private static final String REMOVE_QUERY = "DELETE FROM compte WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM compte WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM compte";
@@ -27,17 +27,17 @@ public class CompteRepository implements IRepository<Compte> {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(FIND_ALL_QUERY)) {
                     try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
+                        while(rs.next()) {
                             Compte compte = new Compte();
                             compte.setId(rs.getInt("id"));
                             compte.setSolde(rs.getDouble("solde"));
                             compte.setDecouvert(rs.getDouble("decouvert"));
                             compte.setTauxInteret(rs.getDouble("tauxInteret"));
                             compte.setTypeCompte(
-                                    new TypeCompteRepository().getOneById(rs.getInt("typeCompte"))
+                                    new TypeCompteRepository().getOneById(rs.getInt("typeCompte_id"))
                             );
                             compte.setAgence(
-                                    (new AgenceRepository().getOneById(rs.getInt("agence")))
+                                    (new AgenceRepository().getOneById(rs.getInt("agence_id")))
                             );
                             listCompte.add(compte);
                         }
@@ -63,10 +63,10 @@ public class CompteRepository implements IRepository<Compte> {
                             compte.setDecouvert(rs.getDouble("decouvert"));
                             compte.setTauxInteret(rs.getDouble("tauxInteret"));
                             compte.setTypeCompte(
-                                    new TypeCompteRepository().getOneById(rs.getInt("typeCompte"))
+                                    new TypeCompteRepository().getOneById(rs.getInt("typeCompte_id"))
                             );
                             compte.setAgence(
-                                    (new AgenceRepository().getOneById(rs.getInt("agence")))
+                                    (new AgenceRepository().getOneById(rs.getInt("agence_id")))
                             );
                         }
                     }
@@ -88,11 +88,7 @@ public class CompteRepository implements IRepository<Compte> {
                     ps.setDouble( 3, _object.getTauxInteret() );
                     ps.setInt( 4, _object.getTypeCompte().getId() );
                     ps.setInt( 5, _object.getAgence().getId() );
-                    try ( ResultSet rs = ps.executeQuery() ) {
-                        if ( rs.next() ) {
-                            _object.setId( rs.getInt( 1 ) );
-                        }
-                    }
+                    ps.executeUpdate();
                 }
             }
         }
@@ -106,7 +102,7 @@ public class CompteRepository implements IRepository<Compte> {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(REMOVE_QUERY)) {
                     ps.setInt(1, _object.getId());
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
             }
         }
@@ -124,11 +120,7 @@ public class CompteRepository implements IRepository<Compte> {
                     ps.setInt(4, _object.getTypeCompte().getId());
                     ps.setInt(5, _object.getAgence().getId());
                     ps.setInt(6, _object.getId());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
-                            _object.setId(rs.getInt(1));
-                        }
-                    }
+                    ps.executeUpdate();
                 }
             }
         }
