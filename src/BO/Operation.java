@@ -70,11 +70,11 @@ public class Operation {
 
   public boolean ExecOpe(){
     boolean exec = false, compteValid = false;
-    if (compteDeb.getTypeCompte().getLibelle().equals("Simple")){
+    if (compteDeb.getTypeCompte().getLibelle().equals("simple")){
       if ((compteDeb.getSolde() - montant) >= compteDeb.getDecouvert() ){
         compteValid = true;
       }
-    }else if(compteDeb.getTypeCompte().getLibelle().equals("Payant")){
+    }else if(compteDeb.getTypeCompte().getLibelle().equals("payant")){
       compteDeb.setSolde(compteDeb.getSolde() - (montant*0.05));
       if (compteDeb.getSolde() - montant >= 0){
         compteValid = true;
@@ -100,11 +100,11 @@ public class Operation {
 
   public boolean Retrait(){
     boolean exec = false, compteValid = false;
-    if (compteDeb.getTypeCompte().getLibelle().equals("Simple")){
+    if (compteDeb.getTypeCompte().getLibelle().equals("simple")){
       if ((compteDeb.getSolde() - montant) >= compteDeb.getDecouvert() ){
         compteValid = true;
       }
-    }else if(compteDeb.getTypeCompte().getLibelle().equals("Payant")){
+    }else if(compteDeb.getTypeCompte().getLibelle().equals("payant")){
       double tax = (montant*0.05);
       compteDeb.setSolde(compteDeb.getSolde() - tax);
       if (compteDeb.getSolde() - montant >= 0){

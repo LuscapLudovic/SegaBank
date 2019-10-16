@@ -1,5 +1,7 @@
 package BO;
 
+import java.sql.Connection;
+
 public class TypeCompte {
 
   //region Properties

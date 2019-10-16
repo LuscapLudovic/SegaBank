@@ -13,35 +13,43 @@ import java.util.ArrayList;
 
 public class OperationRepository implements IRepository<Operation>{
 
+    private static Connection connection;
+
     private static final String INSERT_QUERY = "INSERT INTO operation (compteDebId, compteBenefId, montant) VALUES(?,?,?)";
     private static final String UPDATE_QUERY = "UPDATE operation SET compteDebId = ?, compteBenefId = ?, montant = ? WHERE id = ?";
     private static final String REMOVE_QUERY = "DELETE FROM operation WHERE id = ?";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM operation WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM operation";
-    private static final String FIND_BY_COMPTE = "SELECT operation.id, compteDebId, compteBenefId, montant from operation inner join compte on operation.deb = compte.id where compte.id = ?";
+    private static final String FIND_BY_COMPTE = "SELECT operation.id, compteDebId, compteBenefId, montant from operation inner join compte on operation.compteDebId = compte.id where compte.id = ?";
+
+    public OperationRepository(Connection _connection) {
+        connection = _connection;
+    }
+
+    public OperationRepository() throws SQLException, IOException, ClassNotFoundException {
+        connection = PersistanteManager.getConnection();
+    }
 
     @Override
     public ArrayList<Operation> getAll() throws SQLException, IOException, ClassNotFoundException {
         ArrayList<Operation> listOperation = new ArrayList<>();
-        try(Connection connection = PersistanteManager.getConnection()) {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(FIND_ALL_QUERY)) {
                     try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
+                        while (rs.next()) {
                             Operation operation = new Operation();
                             operation.setId(rs.getInt("id"));
                             operation.setCompteDeb(
-                                    (new CompteRepository().getOneById(rs.getInt("compteDebId")))
+                                    (new CompteRepository(connection).getOneById(rs.getInt("compteDebId")))
                             );
                             operation.setCompteBenef(
-                                    (new CompteRepository().getOneById(rs.getInt("compteBenefId")))
+                                    (new CompteRepository(connection).getOneById(rs.getInt("compteBenefId")))
                             );
                             operation.setMontant(rs.getDouble("montant"));
                             listOperation.add(operation);
                         }
                     }
                 }
-            }
         }
         return listOperation;
     }
@@ -49,7 +57,6 @@ public class OperationRepository implements IRepository<Operation>{
     public Operation getOneById(Integer id) throws SQLException, IOException, ClassNotFoundException {
 
         Operation operation = null;
-        try(Connection connection = PersistanteManager.getConnection()){
             if ( connection != null ) {
                 try ( PreparedStatement ps = connection.prepareStatement( FIND_BY_ID_QUERY ) ) {
                     ps.setInt( 1, id );
@@ -67,7 +74,7 @@ public class OperationRepository implements IRepository<Operation>{
                         }
                     }
                 }
-            }
+
         }
         return operation;
 
@@ -76,12 +83,11 @@ public class OperationRepository implements IRepository<Operation>{
     public ArrayList<Operation> getByCompte(Compte compte) throws SQLException, IOException, ClassNotFoundException {
 
         ArrayList<Operation> listOperation = new ArrayList<>();
-        try(Connection connection = PersistanteManager.getConnection()) {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(FIND_BY_COMPTE)) {
                     ps.setInt(1, compte.getId());
                     try (ResultSet rs = ps.executeQuery()) {
-                        if (rs.next()) {
+                        while (rs.next()) {
                             Operation operation = new Operation();
                             operation.setId(rs.getInt("id"));
                             operation.setCompteDeb(
@@ -95,7 +101,7 @@ public class OperationRepository implements IRepository<Operation>{
                         }
                     }
                 }
-            }
+
         }
         return listOperation;
     }
@@ -103,7 +109,6 @@ public class OperationRepository implements IRepository<Operation>{
     @Override
     public void Add(Operation _object) throws SQLException, IOException, ClassNotFoundException {
 
-        try(Connection connection = PersistanteManager.getConnection()) {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(INSERT_QUERY)) {
                     ps.setInt(1, _object.getCompteDeb().getId());
@@ -112,27 +117,25 @@ public class OperationRepository implements IRepository<Operation>{
                     ps.executeUpdate();
                 }
             }
-        }
+
 
     }
 
     @Override
     public void Remove(Operation _object) throws SQLException, IOException, ClassNotFoundException {
 
-        try(Connection connection = PersistanteManager.getConnection()) {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(REMOVE_QUERY)) {
                     ps.setInt(1, _object.getId());
                     ps.executeUpdate();
                 }
             }
-        }
+
     }
 
     @Override
     public void Update(Operation _object) throws SQLException, IOException, ClassNotFoundException {
 
-        try(Connection connection = PersistanteManager.getConnection()){
             if ( connection != null ) {
                 try (PreparedStatement ps = connection.prepareStatement(UPDATE_QUERY)) {
                     ps.setInt(1, _object.getCompteDeb().getId());
@@ -142,7 +145,7 @@ public class OperationRepository implements IRepository<Operation>{
                     ps.executeUpdate();
                 }
             }
-        }
+
 
 
     }

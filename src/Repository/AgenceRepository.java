@@ -10,6 +10,8 @@ import java.util.List;
 
 public class AgenceRepository implements IRepository<Agence> {
 
+    private static Connection connection;
+
     private static final String INSERT_QUERY = "INSERT INTO agence (code, adresse) VALUES(?,?)";
     private static final String UPDATE_QUERY = "UPDATE agence SET code = ?, adresse = ? WHERE id = ?";
     private static final String REMOVE_QUERY = "DELETE FROM agence WHERE id = ?";
@@ -17,11 +19,18 @@ public class AgenceRepository implements IRepository<Agence> {
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM agence WHERE id = ?";
     private static final String FIND_ALL_QUERY = "SELECT * FROM agence";
 
+    public AgenceRepository(Connection _connection) {
+        connection = _connection;
+    }
+
+    public AgenceRepository() throws SQLException, IOException, ClassNotFoundException {
+        connection = PersistanteManager.getConnection();
+    }
+
     @Override
     public ArrayList<Agence> getAll() throws SQLException, IOException, ClassNotFoundException {
 
         ArrayList<Agence> listAgence = new ArrayList<>();
-        try (Connection connection = PersistanteManager.getConnection()){
             if ( connection != null ) {
                 try ( PreparedStatement ps = connection.prepareStatement( FIND_ALL_QUERY ) ) {
                     try ( ResultSet rs = ps.executeQuery() ) {
@@ -34,7 +43,6 @@ public class AgenceRepository implements IRepository<Agence> {
                         }
                     }
                 }
-            }
         }
 
         return listAgence;
@@ -44,12 +52,11 @@ public class AgenceRepository implements IRepository<Agence> {
 
         Agence agence = null;
 
-        try (Connection connection = PersistanteManager.getConnection()){
             if ( connection != null ) {
                 try ( PreparedStatement ps = connection.prepareStatement( FIND__BY_CODE_QUERY ) ) {
                     ps.setString( 1, code );
                     try ( ResultSet rs = ps.executeQuery() ) {
-                        if ( rs.next() ) {
+                        while ( rs.next() ) {
                             agence = new Agence();
                             agence.setId( rs.getInt( "id" ) );
                             agence.setCode( rs.getString( "code" ) );
@@ -57,7 +64,6 @@ public class AgenceRepository implements IRepository<Agence> {
                         }
                     }
                 }
-            }
         }
 
         return agence;
@@ -67,7 +73,6 @@ public class AgenceRepository implements IRepository<Agence> {
     public Agence getOneById(int id) throws SQLException, IOException, ClassNotFoundException {
 
         Agence agence = null;
-        try (Connection connection = PersistanteManager.getConnection()){
             if ( connection != null ) {
                 try ( PreparedStatement ps = connection.prepareStatement( FIND_BY_ID_QUERY ) ) {
                     ps.setInt( 1, id );
@@ -80,7 +85,6 @@ public class AgenceRepository implements IRepository<Agence> {
                         }
                     }
                 }
-            }
         }
         return agence;
     }
@@ -88,7 +92,6 @@ public class AgenceRepository implements IRepository<Agence> {
     @Override
     public void Add(Agence _object) throws SQLException, IOException, ClassNotFoundException {
 
-        try (Connection connection = PersistanteManager.getConnection()) {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(INSERT_QUERY)) {
                     ps.setString(1, _object.getCode());
@@ -96,26 +99,22 @@ public class AgenceRepository implements IRepository<Agence> {
                     ps.executeUpdate();
                 }
             }
-        }
     }
 
     @Override
     public void Remove(Agence _object) throws SQLException, IOException, ClassNotFoundException {
 
-        try (Connection connection = PersistanteManager.getConnection()) {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(REMOVE_QUERY)) {
                     ps.setInt(1, _object.getId());
                     ps.executeUpdate();
                 }
             }
-        }
     }
 
     @Override
     public void Update(Agence _object) throws SQLException, IOException, ClassNotFoundException {
 
-        try (Connection connection = PersistanteManager.getConnection()) {
             if (connection != null) {
                 try (PreparedStatement ps = connection.prepareStatement(UPDATE_QUERY)) {
                     ps.setString(1, _object.getCode());
@@ -124,7 +123,6 @@ public class AgenceRepository implements IRepository<Agence> {
                     ps.executeUpdate();
                 }
             }
-        }
     }
 
     @Override
